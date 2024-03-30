@@ -1,25 +1,32 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34723.18
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WinFormsApp1", "WinFormsApp1.vbproj", "{AD19F8F0-7A93-420F-9EC8-5622109B66BF}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AD19F8F0-7A93-420F-9EC8-5622109B66BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD19F8F0-7A93-420F-9EC8-5622109B66BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD19F8F0-7A93-420F-9EC8-5622109B66BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD19F8F0-7A93-420F-9EC8-5622109B66BF}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A63391F4-ED7A-4B91-84D9-640E3333F55A}
-	EndGlobalSection
-EndGlobal
+Imports System.Collections.Generic
+Public Class Form1
+    Private products As New Dictionary(Of String, Decimal)()
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+ 
+        products.Add("Products type A", 10.0)
+        products.Add("Products type B", 15.0)
+
+  
+        For Each product In products.Keys
+            lstSelectProduct.Items.Add(product)
+        Next
+    End Sub
+
+    Private Sub ButtonAddToOrder_Click(sender As Object, e As EventArgs) Handles btnAddToOrder.Click
+        Dim selectedProduct As String = lstSelectProduct.SelectedItem.ToString()
+        Dim quantity As Integer = CInt(NumericUpDown1.Value)
+
+        If products.ContainsKey(selectedProduct) Then
+            Dim price As Decimal = products(selectedProduct)
+            Dim totalPrice As Decimal = price * quantity
+
+       
+            lblOrderSummary.Text = $"Added: {selectedProduct}  <Qty: {quantity}>  Total Price: ${totalPrice:F2}"
+
+        Else
+            MessageBox.Show("Please select a valid product.")
+        End If
+    End Sub
+End Class
+
