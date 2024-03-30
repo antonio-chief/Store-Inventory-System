@@ -1,4 +1,5 @@
 Imports System.Collections.Generic
+
 Public Class Form1
     Private products As New Dictionary(Of String, Decimal)()
 
