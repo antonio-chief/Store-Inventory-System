@@ -1,0 +1,32 @@
+Imports MySql.Data.MySqlClient
+
+Public Class Form2
+
+    Dim connStr As String = "Server=127.0.0.1;port=3307;Database=membership;Uid=root;Pwd=February#04;"
+    Dim conn As New MySqlConnection(connStr)
+
+    Private Sub AddItemButton_Click(sender As Object, e As EventArgs) Handles AddItemButton.Click
+        Dim itemName As String = ItemNameTextBox.Text
+        Dim itemPrice As Double = Double.Parse(PriceTextBox.Text)
+        Dim itemQuantity As Integer = Integer.Parse(QuantityTextBox.Text)
+
+        Try
+            conn.Open()
+            Dim query As String = "INSERT INTO items (item_name, price, quantity) VALUES (@name, @price, @quantity)"
+            Dim cmd As New MySqlCommand(query, conn)
+            cmd.Parameters.AddWithValue("@name", itemName)
+            cmd.Parameters.AddWithValue("@price", itemPrice)
+            cmd.Parameters.AddWithValue("@quantity", itemQuantity)
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added successfully!")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+End Class
